@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GPA Calculator</title>
+    <link rel="icon" type="image/png" href="favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style>
+       
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+          .custom-bg {
+            background-color: rgb(1, 130, 197);
+        }
+        h1 {
+            color: rgb(1, 130, 197);
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="number"], input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: rgb(1, 130, 197);
+            
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    
+    
+        
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px; 
+            }
+            .container {
+                max-width: 100%; 
+                padding: 10px; 
+            }
+            label {
+                font-size: 14px;
+            }
+            input[type="number"],
+            input[type="text"] {
+                padding: 8px; 
+                font-size: 14px; 
+            }
+            button {
+                padding: 8px 16px;
+                font-size: 16px;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+   
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a href="index.php"> 
+        <img src="Screenshot_2023-09-29_at_3.37.41_AM-removebg-preview.png" alt="Image description" width="100">
+    </a>
+    
+          
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- GPA Calculator Form -->
+    <h1>GPA Calculator</h1>
+    <div class="container">
+        <form id="gpaForm">
+            <label for="numSubjects">Enter the number of subjects:</label>
+            <input type="number" id="numSubjects" required><br>
+
+            <div id="subjectInputs">
+                
+            </div>
+
+            <button type="button" id="addInputsButton" class="custom bg text-white">Add Grade and Credit Inputs</button><br><br>
+            <button type="button" id="calculateButton" class="custom bg text-white">Calculate GPA</button>
+        </form>
+
+        
+        <div id="result" style="display: none;">
+            <h2>Your GPA is:</h2>
+            <p id="gpaResult"></p>
+        </div>
+    </div>
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    
+    <script>
+        document.getElementById("addInputsButton").addEventListener("click", function() {
+            var numSubjects = parseInt(document.getElementById("numSubjects").value);
+            var subjectInputs = document.getElementById("subjectInputs");
+            subjectInputs.innerHTML = ""; 
+
+            for (var i = 0; i < numSubjects; i++) {
+                var gradeLabel = document.createElement("label");
+                gradeLabel.innerHTML = "Grade for Subject " + (i + 1) + ": ";
+                var gradeInput = document.createElement("input");
+                gradeInput.type = "text";
+                gradeInput.name = "grades";
+                gradeInput.required = true;
+
+                var creditLabel = document.createElement("label");
+                creditLabel.innerHTML = "Credits for Subject " + (i + 1) + ": ";
+                var creditInput = document.createElement("input");
+                creditInput.type = "number";
+                creditInput.name = "credits";
+                creditInput.required = true;
+
+                subjectInputs.appendChild(gradeLabel);
+                subjectInputs.appendChild(gradeInput);
+                subjectInputs.appendChild(document.createElement("br"));
+                subjectInputs.appendChild(creditLabel);
+                subjectInputs.appendChild(creditInput);
+                subjectInputs.appendChild(document.createElement("br"));
+            }
+        });
+
+        document.getElementById("calculateButton").addEventListener("click", function() {
+            var grades = document.getElementsByName("grades");
+            var credits = document.getElementsByName("credits");
+            var totalCredits = 0;
+            var weightedSum = 0;
+            var isValid = true;
+
+            for (var i = 0; i < grades.length; i++) {
+                var grade = grades[i].value.trim().toUpperCase();
+                var credit = parseFloat(credits[i].value);
+
+                var gradePoints = {
+                    'S': 10,
+                    'A': 9,
+                    'B': 8,
+                    'C': 7,
+                    'D': 6,
+                    'E': 5,
+                    'F': 0 
+                };
+
+                if (!isNaN(credit) && credit > 0 && gradePoints.hasOwnProperty(grade)) {
+                    weightedSum += gradePoints[grade] * credit;
+                    totalCredits += credit;
+                } else {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            var gpaResult = document.getElementById("gpaResult");
+
+            if (isValid && totalCredits > 0) {
+                var gpa = (weightedSum / totalCredits).toFixed(2);
+                gpaResult.textContent = "Your GPA is: " + gpa;
+            } else {
+                gpaResult.textContent = "Invalid input. Please check your grades and credits.";
+            }
+
+            var resultDiv = document.getElementById("result");
+            resultDiv.style.display = "block";
+        });
+    </script>
+</body>
+</html>
+

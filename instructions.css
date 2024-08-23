@@ -1,0 +1,49 @@
+.content {
+    margin: 4rem;
+    padding: 2rem;
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 1);
+    border-radius: 1rem;
+  } 
+
+
+.middle {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 1rem;
+    background-color: #cdcdcd;
+    color: #050506;
+}
+
+.a{
+    color: #007185;
+}
+
+
+.CGPA{
+    margin: 2rem;
+    padding: 2rem;
+    background-color: #ededed;
+    box-shadow: 0 0px 4px rgba(0, 0, 0, 1); 
+    border-radius: 0.5rem;
+}
+
+.Examprep{
+    margin: 2rem;
+    padding: 2rem;
+    background-color: #ededed;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 1);
+    border-radius: 0.5rem;
+}
+
+.QPgeneration{
+    margin: 2rem;
+    padding: 2rem;
+    background-color: #ededed;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 1);
+    border-radius: 0.5rem;
+}
+
+.py-3{
+    background-color: #ededed;
+}
